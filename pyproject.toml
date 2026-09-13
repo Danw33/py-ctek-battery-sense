@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ctek-battery-sense"
+version = "0.1.0"
+description = "Async Python library for CTEK Battery Sense Bluetooth monitors"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Daniel Wilson", email = "hello@danw.io" },
+]
+keywords = ["bluetooth", "ble", "battery", "ctek", "battery-sense"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: AsyncIO",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Home Automation",
+  "Topic :: System :: Hardware",
+  "Typing :: Typed",
+]
+dependencies = [
+  "bleak>=3.0.2",
+  "bleak-retry-connector>=4.7.0",
+]
+
+[project.urls]
+Homepage = "https://danw.io"
+Repository = "https://github.com/Danw33/py-ctek-battery-sense"
+Issues = "https://github.com/Danw33/py-ctek-battery-sense/issues"
+Changelog = "https://github.com/Danw33/py-ctek-battery-sense/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.4.2",
+  "pytest-asyncio>=1.2.0",
+  "pytest-cov>=7.0.0",
+]
+dev = [
+  "build>=1.3.0",
+  "ctek-battery-sense[test]",
+  "mypy>=1.18.2",
+  "ruff==0.16.4",
+  "twine>=6.2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ctek_battery_sense"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --cov=ctek_battery_sense --cov-report=term-missing"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["ctek_battery_sense"]
+
+[tool.coverage.report]
+fail_under = 95
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ASYNC", "B", "E4", "E7", "E9", "F", "I", "RUF", "SIM", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["ctek_battery_sense"]
+mypy_path = "src"
